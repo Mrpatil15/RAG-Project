@@ -14,7 +14,7 @@ __pycache__/
 *.pyd
 
 # Databases and Local storage
-chroma_db/
+chroma_db*/
 
 # OS files
 .DS_Store
