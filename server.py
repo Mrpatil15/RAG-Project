@@ -101,10 +101,7 @@ async def chat_endpoint(request: ChatRequest):
         
         DB_DIR = "./chroma_db"
         if not os.path.exists(DB_DIR):
-            raise HTTPException(
-                status_code=400, 
-                detail="Vector database directory './chroma_db' does not exist. Please run python ingest.py first."
-            )
+            raise Exception("Chroma DB directory not found. Please run python ingest.py.")
             
         embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
         vectorstore = Chroma(
@@ -156,7 +153,32 @@ Helpful Answer:"""
         }
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"RAG Chain Error: {str(e)}")
+        error_msg = str(e).lower()
+        warning_msg = "[OFFLINE MODE - RAG Pipeline Fallback]\n\n"
+        if "insufficient_quota" in error_msg:
+            warning_msg = (
+                "⚠️ **[OFFLINE MODE - OpenAI Quota Exceeded]**\n"
+                "Your OpenAI API Key is valid, but your OpenAI developer account has run out of credits or has no billing method configured.\n"
+                "Temporarily using local keyword search to answer your question:\n\n"
+            )
+        elif "chroma db directory not found" in error_msg:
+            warning_msg = (
+                "⚠️ **[OFFLINE MODE - Vector DB Not Ready]**\n"
+                "The Chroma database is not initialized. Using local keyword search to answer your question:\n\n"
+            )
+            
+        matches = offline_search(question, locality)
+        if matches:
+            top_score, file_name, text = matches[0]
+            return {
+                "answer": f"{warning_msg}Based on the local source document **{file_name}**:\n\n{text.strip()}",
+                "sources": [file_name]
+            }
+        else:
+            return {
+                "answer": f"{warning_msg}No matching documents were found offline. Please configure your OpenAI account billing or add credits to resolve this.",
+                "sources": []
+            }
 
 # Mount frontend files statically at the root
 # Note: Ensure frontend directory exists before mounting
