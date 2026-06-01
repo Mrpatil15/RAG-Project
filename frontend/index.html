@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mumbai Real Estate AI Assistant</title>
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-building-shield"></i>
+                    <span>MRE Agent</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-content">
+                <div class="section-title">Database Filters</div>
+                
+                <div class="form-group">
+                    <label for="locality-select"><i class="fa-solid fa-map-location-dot"></i> Select Region</label>
+                    <select id="locality-select" class="custom-select">
+                        <option value="all">All Regions (Full Mumbai)</option>
+                        <option value="south_mumbai">South Mumbai (Worli/Colaba)</option>
+                        <option value="western_suburbs">Western Suburbs (Bandra/Andheri)</option>
+                        <option value="central_mumbai">Central Mumbai (Powai/Chembur)</option>
+                        <option value="kanjurmarg">Kanjurmarg Micro-market</option>
+                        <option value="bhandup">Bhandup Micro-market</option>
+                        <option value="mulund">Mulund Micro-market</option>
+                        <option value="vikhroli">Vikhroli Micro-market</option>
+                        <option value="navi_mumbai">Navi Mumbai (CIDCO nodes)</option>
+                        <option value="thane">Thane & Ghodbunder Road</option>
+                    </select>
+                </div>
+
+                <div class="sidebar-divider"></div>
+
+                <div class="info-card">
+                    <h4><i class="fa-solid fa-circle-info"></i> How it works</h4>
+                    <p>This assistant uses **Retrieval Augmented Generation (RAG)**. It searches your local market documents and feeds verified chunks to the AI to answer without hallucinating.</p>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span>
+                    <span id="backend-status">Connected to Local Engine</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat Dashboard -->
+        <main class="chat-dashboard">
+            <header class="chat-header">
+                <div class="header-info">
+                    <h1>Mumbai Real Estate AI Assistant</h1>
+                    <p>Informed by local market briefs and RERA datasets</p>
+                </div>
+                <div class="header-actions">
+                    <a href="https://github.com/Mrpatil15/RAG-Project" target="_blank" class="github-btn">
+                        <i class="fa-brands fa-github"></i> GitHub Code
+                    </a>
+                </div>
+            </header>
+
+            <!-- Chat Message Window -->
+            <div id="chat-box" class="chat-messages">
+                <!-- Welcome Message -->
+                <div class="message assistant-message fade-in">
+                    <div class="message-avatar">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <p>Hello! I am your AI assistant specialized in Mumbai's real estate markets. I can provide details on connectivity, upcoming infrastructure projects, key residential builds, and pricing ranges across various localities.</p>
+                        <p>What can I help you research today?</p>
+                        <div class="suggestions">
+                            <button class="suggest-btn" data-query="What is the average 2BHK price in Kanjurmarg?">2BHK in Kanjurmarg</button>
+                            <button class="suggest-btn" data-query="Tell me about the Coastal Road impact on Worli.">Coastal Road in Worli</button>
+                            <button class="suggest-btn" data-query="What are the growth drivers in Navi Mumbai?">Navi Mumbai Growth</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <footer class="chat-input-container">
+                <form id="chat-form" class="chat-form">
+                    <input 
+                        type="text" 
+                        id="chat-input" 
+                        placeholder="Ask about property prices, developer projects, metro connectivity..." 
+                        autocomplete="off"
+                        required
+                    >
+                    <button type="submit" id="send-btn" class="send-button">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </footer>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
