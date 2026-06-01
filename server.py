@@ -135,7 +135,7 @@ Helpful Answer:"""
     # --- MODE 2: LOCAL RAG (HuggingFace + Ollama Llama3) ---
     try:
         from langchain_community.embeddings import HuggingFaceEmbeddings
-        from langchain_community.chat_models import ChatOllama
+        from langchain_community.llms import Ollama
         from langchain_chroma import Chroma
         from langchain.prompts import PromptTemplate
         from langchain.chains import RetrievalQA
@@ -159,7 +159,7 @@ Helpful Answer:"""
         prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
         
         # Connect to local Ollama Llama-3 model
-        llm = ChatOllama(model="llama3", temperature=0)
+        llm = Ollama(model="llama3", temperature=0)
         chain = RetrievalQA.from_chain_type(
             llm=llm,
             chain_type="stuff",
