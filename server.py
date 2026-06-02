@@ -89,8 +89,11 @@ Helpful Answer:"""
         try:
             from langchain_openai import OpenAIEmbeddings, ChatOpenAI
             from langchain_chroma import Chroma
-            from langchain.prompts import PromptTemplate
-            from langchain.chains import RetrievalQA
+            from langchain_core.prompts import PromptTemplate
+            try:
+                from langchain.chains import RetrievalQA
+            except ImportError:
+                from langchain_classic.chains import RetrievalQA
             
             DB_DIR = "./chroma_db_openai"
             if not os.path.exists(DB_DIR):
@@ -137,8 +140,11 @@ Helpful Answer:"""
         from langchain_community.embeddings import HuggingFaceEmbeddings
         from langchain_community.llms import Ollama
         from langchain_chroma import Chroma
-        from langchain.prompts import PromptTemplate
-        from langchain.chains import RetrievalQA
+        from langchain_core.prompts import PromptTemplate
+        try:
+            from langchain.chains import RetrievalQA
+        except ImportError:
+            from langchain_classic.chains import RetrievalQA
         
         DB_DIR = "./chroma_db_local"
         if not os.path.exists(DB_DIR):
