@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mumbai Real Estate AI Assistant</title>
+    <title>Mumbai Metropolitan Real Estate Assistant</title>
     <!-- Google Fonts for premium typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,12 +14,12 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar Navigation -->
+        <!-- Sidebar Navigation (Glassmorphic) -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
                     <i class="fa-solid fa-building-shield"></i>
-                    <span>MRE Agent</span>
+                    <span>MRE Assistant</span>
                 </div>
             </div>
             
@@ -27,17 +27,17 @@
                 <div class="section-title">Database Filters</div>
                 
                 <div class="form-group">
-                    <label for="locality-select"><i class="fa-solid fa-map-location-dot"></i> Select Region</label>
+                    <label for="locality-select"><i class="fa-solid fa-map-location-dot"></i> Select Focus Area</label>
                     <select id="locality-select" class="custom-select">
-                        <option value="all">All Regions (Full Mumbai)</option>
-                        <option value="south_mumbai">South Mumbai (Worli/Colaba)</option>
-                        <option value="western_suburbs">Western Suburbs (Bandra/Andheri)</option>
+                        <option value="all">All Regions (Full MMR)</option>
+                        <option value="south_mumbai">South & Harbour Mumbai</option>
+                        <option value="western_suburbs">Western Suburbs & Sub-markets</option>
                         <option value="central_mumbai">Central Mumbai (Powai/Chembur)</option>
                         <option value="kanjurmarg">Kanjurmarg Micro-market</option>
                         <option value="bhandup">Bhandup Micro-market</option>
                         <option value="mulund">Mulund Micro-market</option>
                         <option value="vikhroli">Vikhroli Micro-market</option>
-                        <option value="navi_mumbai">Navi Mumbai (CIDCO nodes)</option>
+                        <option value="navi_mumbai">Navi Mumbai District</option>
                         <option value="thane">Thane & Ghodbunder Road</option>
                     </select>
                 </div>
@@ -45,15 +45,15 @@
                 <div class="sidebar-divider"></div>
 
                 <div class="info-card">
-                    <h4><i class="fa-solid fa-circle-info"></i> How it works</h4>
-                    <p>This assistant uses **Retrieval Augmented Generation (RAG)**. It searches your local market documents and feeds verified chunks to the AI to answer without hallucinating.</p>
+                    <h4><i class="fa-solid fa-circle-info"></i> RAG Engine Active</h4>
+                    <p>This agent searches across 6 primary zones and 50+ local markets inside the MMR to formulate grounded, accurate property assessments.</p>
                 </div>
             </div>
 
             <div class="sidebar-footer">
                 <div class="status-indicator">
                     <span class="pulse-dot"></span>
-                    <span id="backend-status">Connected to Local Engine</span>
+                    <span id="backend-status">Checking Connection...</span>
                 </div>
             </div>
         </aside>
@@ -62,8 +62,8 @@
         <main class="chat-dashboard">
             <header class="chat-header">
                 <div class="header-info">
-                    <h1>Mumbai Real Estate AI Assistant</h1>
-                    <p>Informed by local market briefs and RERA datasets</p>
+                    <h1>Mumbai Metropolitan Real Estate Assistant</h1>
+                    <p>AI Agent covering Mumbai City · Western & Central Suburbs · Thane · Navi Mumbai</p>
                 </div>
                 <div class="header-actions">
                     <a href="https://github.com/Mrpatil15/RAG-Project" target="_blank" class="github-btn">
@@ -75,17 +75,17 @@
             <!-- Chat Message Window -->
             <div id="chat-box" class="chat-messages">
                 <!-- Welcome Message -->
-                <div class="message assistant-message fade-in">
+                <div class="message assistant-message">
                     <div class="message-avatar">
                         <i class="fa-solid fa-robot"></i>
                     </div>
                     <div class="message-content">
-                        <p>Hello! I am your AI assistant specialized in Mumbai's real estate markets. I can provide details on connectivity, upcoming infrastructure projects, key residential builds, and pricing ranges across various localities.</p>
+                        <p>Hello! I am your AI assistant specialized in the Mumbai Metropolitan Region's real estate markets. I can provide details on connectivity, upcoming infrastructure projects (Metro, MTHL, Coastal Road), key residential builds, and pricing ranges across all major zones.</p>
                         <p>What can I help you research today?</p>
                         <div class="suggestions">
                             <button class="suggest-btn" data-query="What is the average 2BHK price in Kanjurmarg?">2BHK in Kanjurmarg</button>
-                            <button class="suggest-btn" data-query="Tell me about the Coastal Road impact on Worli.">Coastal Road in Worli</button>
-                            <button class="suggest-btn" data-query="What are the growth drivers in Navi Mumbai?">Navi Mumbai Growth</button>
+                            <button class="suggest-btn" data-query="Tell me about the Coastal Road impact on South Mumbai.">Coastal Road in Worli</button>
+                            <button class="suggest-btn" data-query="What is driving real estate growth in Navi Mumbai?">Navi Mumbai Growth</button>
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                     <input 
                         type="text" 
                         id="chat-input" 
-                        placeholder="Ask about property prices, developer projects, metro connectivity..." 
+                        placeholder="Ask about any locality — prices, projects, metro, connectivity, RERA status..." 
                         autocomplete="off"
                         required
                     >
