@@ -220,8 +220,61 @@ Helpful Answer:"""
                 "sources": sources
             }
         except Exception as e:
-            print(f"[OpenAI Mode Error] {e} - Falling back to local/offline search.")
-            # Fall through to local RAG or keyword fallback
+            print(f"[OpenAI Mode Error] {e} - Falling back to Gemini or local search.")
+            # Fall through to Gemini or local RAG
+
+    # --- MODE 1.5: FREE GOOGLE GEMINI MODE (via OpenAI Compatibility) ---
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if gemini_key and gemini_key != "your_gemini_api_key_here" and gemini_key != "":
+        try:
+            from langchain_openai import ChatOpenAI
+            from langchain_core.prompts import PromptTemplate
+            try:
+                from langchain.chains import RetrievalQA
+            except ImportError:
+                from langchain_classic.chains import RetrievalQA
+            
+            search_kwargs = {"k": 4}
+            if zone != "all" and zone in ZONE_LOCALITIES:
+                if locality != "all":
+                    search_kwargs["filter"] = {"locality": {"$eq": locality}}
+                else:
+                    search_kwargs["filter"] = {
+                        "locality": {
+                            "$in": [loc.lower() for loc in ZONE_LOCALITIES[zone]]
+                        }
+                    }
+                
+            # Use preloaded free local vector store for retrieval
+            if local_vectorstore is not None:
+                retriever = local_vectorstore.as_retriever(search_kwargs=search_kwargs)
+                prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
+                
+                # Query Google's OpenAI-compatible endpoint with the free Gemini 1.5 Flash model
+                llm = ChatOpenAI(
+                    model="gemini-1.5-flash",
+                    api_key=gemini_key,
+                    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+                )
+                chain = RetrievalQA.from_chain_type(
+                    llm=llm,
+                    chain_type="stuff",
+                    retriever=retriever,
+                    chain_type_kwargs={"prompt": prompt},
+                    return_source_documents=True
+                )
+                
+                response = chain.invoke(question)
+                answer = response["result"]
+                source_docs = response.get("source_documents", [])
+                sources = list(set([doc.metadata.get("source", "Unknown") for doc in source_docs]))
+                
+                return {
+                    "answer": f"♊ **[Gemini 1.5 Flash Mode]**\n\n{answer}",
+                    "sources": sources
+                }
+        except Exception as gemini_err:
+            print(f"[Gemini Mode Error] {gemini_err} - Falling back to local offline search.")
 
     # --- MODE 2: LOCAL RAG (HuggingFace + Ollama Llama3) ---
     if local_vectorstore is not None:
