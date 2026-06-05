@@ -40,7 +40,7 @@ body {
 /* App Container Layout */
 .app-container {
     display: grid;
-    grid-template-columns: 320px 1fr 420px;
+    grid-template-columns: 320px 1fr;
     height: 100vh;
     width: 100vw;
 }
@@ -600,106 +600,7 @@ body {
     font-size: 13px;
 }
 
-/* 3D Visualizer Panel */
-.visualizer-panel {
-    background-color: rgba(13, 20, 38, 0.45);
-    border-left: 1px solid var(--border-color);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    position: relative;
-    z-index: 5;
-}
-
-.visualizer-header {
-    padding: 24px 28px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.visualizer-header h3 {
-    font-family: var(--font-heading);
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.visualizer-header h3 i {
-    color: var(--accent-blue);
-    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.3));
-}
-
-#three-canvas-container {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-#three-canvas-container canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    outline: none;
-}
-
-.market-info-overlay {
-    position: absolute;
-    bottom: 24px;
-    left: 24px;
-    right: 24px;
-    background: rgba(10, 15, 30, 0.85);
-    border: 1px solid rgba(59, 130, 246, 0.25);
-    border-radius: 16px;
-    padding: 18px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes slideUpFade {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.market-info-overlay h4 {
-    font-family: var(--font-heading);
-    color: #60a5fa;
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    letter-spacing: 0.3px;
-}
-
-.market-info-overlay p {
-    font-size: 12px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
 /* Mobile responsive fixes */
-@media (max-width: 1024px) {
-    .app-container {
-        grid-template-columns: 280px 1fr;
-    }
-    .visualizer-panel {
-        display: none;
-    }
-}
-
 @media (max-width: 768px) {
     .app-container {
         display: flex;

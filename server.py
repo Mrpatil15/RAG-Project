@@ -25,6 +25,57 @@ class ChatRequest(BaseModel):
     question: str
     locality: str
 
+# Global cached variables for vector stores
+openai_vectorstore = None
+local_vectorstore = None
+
+# Initialize resources globally on startup to prevent slow response times
+def preload_resources():
+    global openai_vectorstore, local_vectorstore
+    
+    api_key = os.getenv("OPENAI_API_KEY")
+    use_openai = api_key and api_key != "your_openai_api_key_here" and api_key != ""
+    
+    # 1. Preload OpenAI Vector Store (Online Mode)
+    if use_openai:
+        try:
+            from langchain_openai import OpenAIEmbeddings
+            from langchain_chroma import Chroma
+            DB_DIR = "./chroma_db_openai"
+            if os.path.exists(DB_DIR):
+                embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+                openai_vectorstore = Chroma(
+                    collection_name="mumbai_realestate",
+                    embedding_function=embeddings,
+                    persist_directory=DB_DIR
+                )
+                print("✅ Preloaded OpenAI Vector Store successfully.")
+            else:
+                print("⚠️ OpenAI Vector database folder not found.")
+        except Exception as e:
+            print(f"⚠️ Could not preload OpenAI Vector Store: {e}")
+            
+    # 2. Preload Local Vector Store (Offline Mode)
+    try:
+        from langchain_community.embeddings import HuggingFaceEmbeddings
+        from langchain_chroma import Chroma
+        DB_DIR = "./chroma_db_local"
+        if os.path.exists(DB_DIR):
+            embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+            local_vectorstore = Chroma(
+                collection_name="mumbai_realestate",
+                embedding_function=embeddings,
+                persist_directory=DB_DIR
+            )
+            print("✅ Preloaded Local Vector Store successfully.")
+        else:
+            print("⚠️ Local Vector database folder not found.")
+    except Exception as e:
+        print(f"⚠️ Could not preload Local Vector Store: {e}")
+
+# Preload resources
+preload_resources()
+
 # Local keyword offline search helper (fallback when both OpenAI and Ollama fail)
 def offline_search(query: str, locality_filter: str):
     files = glob.glob("./data/locality_briefs/*.md")
@@ -85,32 +136,20 @@ Question: {question}
 Helpful Answer:"""
 
     # --- MODE 1: CLOUD RAG (OpenAI) ---
-    if use_openai:
+    if use_openai and openai_vectorstore is not None:
         try:
-            from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-            from langchain_chroma import Chroma
+            from langchain_openai import ChatOpenAI
             from langchain_core.prompts import PromptTemplate
             try:
                 from langchain.chains import RetrievalQA
             except ImportError:
                 from langchain_classic.chains import RetrievalQA
             
-            DB_DIR = "./chroma_db_openai"
-            if not os.path.exists(DB_DIR):
-                raise Exception("OpenAI Vector database not initialized.")
-                
-            embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-            vectorstore = Chroma(
-                collection_name="mumbai_realestate",
-                embedding_function=embeddings,
-                persist_directory=DB_DIR
-            )
-            
             search_kwargs = {"k": 4}
             if locality != "all":
                 search_kwargs["filter"] = {"locality": locality}
                 
-            retriever = vectorstore.as_retriever(search_kwargs=search_kwargs)
+            retriever = openai_vectorstore.as_retriever(search_kwargs=search_kwargs)
             prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
             
             llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
@@ -136,76 +175,64 @@ Helpful Answer:"""
             # Fall through to local RAG or keyword fallback
 
     # --- MODE 2: LOCAL RAG (HuggingFace + Ollama Llama3) ---
-    try:
-        from langchain_community.embeddings import HuggingFaceEmbeddings
-        from langchain_community.llms import Ollama
-        from langchain_chroma import Chroma
-        from langchain_core.prompts import PromptTemplate
+    if local_vectorstore is not None:
         try:
-            from langchain.chains import RetrievalQA
-        except ImportError:
-            from langchain_classic.chains import RetrievalQA
-        
-        DB_DIR = "./chroma_db_local"
-        if not os.path.exists(DB_DIR):
-            raise Exception("Local Vector database not initialized.")
+            from langchain_community.llms import Ollama
+            from langchain_core.prompts import PromptTemplate
+            try:
+                from langchain.chains import RetrievalQA
+            except ImportError:
+                from langchain_classic.chains import RetrievalQA
             
-        embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-        vectorstore = Chroma(
-            collection_name="mumbai_realestate",
-            embedding_function=embeddings,
-            persist_directory=DB_DIR
-        )
-        
-        search_kwargs = {"k": 4}
-        if locality != "all":
-            search_kwargs["filter"] = {"locality": locality}
+            search_kwargs = {"k": 4}
+            if locality != "all":
+                search_kwargs["filter"] = {"locality": locality}
+                
+            retriever = local_vectorstore.as_retriever(search_kwargs=search_kwargs)
+            prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
             
-        retriever = vectorstore.as_retriever(search_kwargs=search_kwargs)
-        prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
-        
-        # Connect to local Ollama Llama-3 model
-        llm = Ollama(model="llama3", temperature=0)
-        chain = RetrievalQA.from_chain_type(
-            llm=llm,
-            chain_type="stuff",
-            retriever=retriever,
-            chain_type_kwargs={"prompt": prompt},
-            return_source_documents=True
-        )
-        
-        response = chain.invoke(question)
-        answer = response["result"]
-        source_docs = response.get("source_documents", [])
-        sources = list(set([doc.metadata.get("source", "Unknown") for doc in source_docs]))
-        
+            # Connect to local Ollama Llama-3 model
+            llm = Ollama(model="llama3", temperature=0)
+            chain = RetrievalQA.from_chain_type(
+                llm=llm,
+                chain_type="stuff",
+                retriever=retriever,
+                chain_type_kwargs={"prompt": prompt},
+                return_source_documents=True
+            )
+            
+            response = chain.invoke(question)
+            answer = response["result"]
+            source_docs = response.get("source_documents", [])
+            sources = list(set([doc.metadata.get("source", "Unknown") for doc in source_docs]))
+            
+            return {
+                "answer": f"🤖 **[Local Offline AI Mode]**\n\n{answer}",
+                "sources": sources
+            }
+            
+        except Exception as e:
+            print(f"[Local RAG Error] {e} - Falling back to local keyword search.")
+            
+    # --- MODE 3: KEYWORD OFFLINE SEARCH (No libraries/Ollama needed) ---
+    warning_msg = (
+        "⚠️ **[Offline Mode - Keyword Fallback]**\n"
+        "OpenAI API key was not found or has expired, and local Ollama (Llama-3) RAG is not running/initialized.\n"
+        "Using direct document keyword matching to answer your query:\n\n"
+    )
+    
+    matches = offline_search(question, locality)
+    if matches:
+        top_score, file_name, text = matches[0]
         return {
-            "answer": f"🤖 **[Local Offline AI Mode]**\n\n{answer}",
-            "sources": sources
+            "answer": f"{warning_msg}Based on the local source document **{file_name}**:\n\n{text.strip()}",
+            "sources": [file_name]
         }
-        
-    except Exception as e:
-        # --- MODE 3: KEYWORD OFFLINE SEARCH (No libraries/Ollama needed) ---
-        print(f"[Local RAG Error] {e} - Falling back to local keyword search.")
-        
-        warning_msg = (
-            "⚠️ **[Offline Mode - Keyword Fallback]**\n"
-            "OpenAI API key was not found or has expired, and local Ollama (Llama-3) RAG is not running/initialized.\n"
-            "Using direct document keyword matching to answer your query:\n\n"
-        )
-        
-        matches = offline_search(question, locality)
-        if matches:
-            top_score, file_name, text = matches[0]
-            return {
-                "answer": f"{warning_msg}Based on the local source document **{file_name}**:\n\n{text.strip()}",
-                "sources": [file_name]
-            }
-        else:
-            return {
-                "answer": f"{warning_msg}No matching documents were found offline. Please start Ollama or run `python ingest.py` to index the local files for semantic search.",
-                "sources": []
-            }
+    else:
+        return {
+            "answer": f"{warning_msg}No matching documents were found offline. Please start Ollama or run `python ingest.py` to index the local files for semantic search.",
+            "sources": []
+        }
 
 # Mount frontend files statically at the root
 os.makedirs("./frontend", exist_ok=True)
