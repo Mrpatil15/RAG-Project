@@ -23,7 +23,18 @@ app.add_middleware(
 # Request schema
 class ChatRequest(BaseModel):
     question: str
+    zone: str
     locality: str
+
+# MMR Localities mapping by Zone
+ZONE_LOCALITIES = {
+    "Central Eastern Suburbs": ["Kanjurmarg", "Bhandup", "Mulund", "Vikhroli", "Nahur"],
+    "Central Mumbai": ["Dadar", "Kurla", "Ghatkopar", "Chembur", "Govandi", "Mankhurd", "Tilak Nagar"],
+    "Western Mumbai": ["Andheri", "Borivali", "Kandivali", "Malad", "Goregaon", "Dahisar", "Mira Road", "Bhayandar"],
+    "South & Harbour Mumbai": ["Bandra", "Worli", "Lower Parel", "Parel", "Wadala", "Sion", "Matunga", "Mahim"],
+    "Thane District": ["Thane West", "Thane East", "Kalyan", "Dombivli", "Ulhasnagar", "Bhiwandi", "Ambernath", "Badlapur"],
+    "Navi Mumbai": ["Vashi", "Kharghar", "Panvel", "Airoli", "Nerul", "Belapur", "Sanpada", "Ghansoli", "Kopar Khairane"]
+}
 
 # Global cached variables for vector stores
 openai_vectorstore = None
@@ -117,6 +128,7 @@ def offline_search(query: str, locality_filter: str):
 @app.post("/api/chat")
 async def chat_endpoint(request: ChatRequest):
     question = request.question
+    zone = request.zone
     locality = request.locality.lower()
     
     api_key = os.getenv("OPENAI_API_KEY")
@@ -146,8 +158,15 @@ Helpful Answer:"""
                 from langchain_classic.chains import RetrievalQA
             
             search_kwargs = {"k": 4}
-            if locality != "all":
-                search_kwargs["filter"] = {"locality": locality}
+            if zone != "all" and zone in ZONE_LOCALITIES:
+                if locality != "all":
+                    search_kwargs["filter"] = {"locality": {"$eq": locality}}
+                else:
+                    search_kwargs["filter"] = {
+                        "locality": {
+                            "$in": [loc.lower() for loc in ZONE_LOCALITIES[zone]]
+                        }
+                    }
                 
             retriever = openai_vectorstore.as_retriever(search_kwargs=search_kwargs)
             prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])
@@ -185,8 +204,15 @@ Helpful Answer:"""
                 from langchain_classic.chains import RetrievalQA
             
             search_kwargs = {"k": 4}
-            if locality != "all":
-                search_kwargs["filter"] = {"locality": locality}
+            if zone != "all" and zone in ZONE_LOCALITIES:
+                if locality != "all":
+                    search_kwargs["filter"] = {"locality": {"$eq": locality}}
+                else:
+                    search_kwargs["filter"] = {
+                        "locality": {
+                            "$in": [loc.lower() for loc in ZONE_LOCALITIES[zone]]
+                        }
+                    }
                 
             retriever = local_vectorstore.as_retriever(search_kwargs=search_kwargs)
             prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["context", "question"])

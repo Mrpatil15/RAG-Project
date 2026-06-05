@@ -198,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 3. Show Loading Spinner
         showTypingIndicator();
 
+        const selectedZone = zoneSelect.value;
         const selectedLocality = localitySelect.value;
 
         try {
@@ -208,6 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 body: JSON.stringify({
                     question: queryText,
+                    zone: selectedZone,
                     locality: selectedLocality
                 })
             });
@@ -249,7 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const res = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ question: "ping", locality: "all" })
+                body: JSON.stringify({ question: "ping", zone: "all", locality: "all" })
             });
             if (res.ok) {
                 backendStatus.innerText = "Connected to Local Engine";
