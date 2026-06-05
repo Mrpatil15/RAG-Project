@@ -123,3 +123,34 @@ A Python-driven dashboard styled with custom CSS overrides, glassmorphism, and a
   streamlit run app.py
   ```
 - **Access Link**: [http://localhost:8501](http://localhost:8501)
+
+---
+
+## 🐳 Dockerization & 24/7 Cloud Deployment
+
+To deploy this application to the cloud and run it 24/7 without needing your local machine active, you can use the provided `Dockerfile`.
+
+### 1. Run via Docker Locally
+To build and run the container on your local machine:
+```bash
+docker build -t mumbai-realty-rag .
+docker run -p 7860:7860 --env OPENAI_API_KEY="your_api_key" -d mumbai-realty-rag
+```
+After launching, the app will be accessible at [http://localhost:7860](http://localhost:7860).
+
+### 2. Deploy 24/7 to Hugging Face Spaces (Free & Recommended)
+You can host this application permanently on **Hugging Face Spaces** for free:
+1. Go to [huggingface.co/spaces](https://huggingface.co/spaces) and click **Create new Space**.
+2. Name your space (e.g. `mumbai-realty-rag`) and select **Docker** as the SDK.
+3. Select **Blank** under the Docker template (do not choose any preset).
+4. Under **Settings** -> **Repository**, link your GitHub Repository `Mrpatil15/RAG-Project` (or configure it as a Git remote and push directly to Hugging Face).
+5. If using OpenAI Cloud Mode, go to **Settings** -> **Variables and Secrets**, add a new Secret with name `OPENAI_API_KEY` and paste your key.
+6. Hugging Face will automatically build your Docker container, download the local embedding model weights, compile the vector store, and deploy your live assistant!
+
+### 3. Deploy to Render.com (Free Tier Alternative)
+1. Register/Login on [Render.com](https://render.com).
+2. Click **New** -> **Web Service** and connect your GitHub Repository `Mrpatil15/RAG-Project`.
+3. Render will auto-detect the `Dockerfile` and select Docker environment.
+4. In the service settings, add `OPENAI_API_KEY` under the Environment variables tab if using OpenAI.
+5. Deploy the service. It will expose port 7860 automatically.
+

@@ -53,6 +53,14 @@ def preload_resources():
             from langchain_openai import OpenAIEmbeddings
             from langchain_chroma import Chroma
             DB_DIR = "./chroma_db_openai"
+            if not os.path.exists(DB_DIR):
+                print("[INFO] OpenAI Vector database folder not found. Auto-generating it via ingest.py...")
+                try:
+                    import ingest
+                    ingest.ingest_documents()
+                except Exception as ingest_err:
+                    print(f"[ERROR] Auto-ingestion failed: {ingest_err}")
+            
             if os.path.exists(DB_DIR):
                 embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
                 openai_vectorstore = Chroma(
@@ -71,6 +79,14 @@ def preload_resources():
         from langchain_community.embeddings import HuggingFaceEmbeddings
         from langchain_chroma import Chroma
         DB_DIR = "./chroma_db_local"
+        if not os.path.exists(DB_DIR):
+            print("[INFO] Local Vector database folder not found. Auto-generating it via ingest.py...")
+            try:
+                import ingest
+                ingest.ingest_documents()
+            except Exception as ingest_err:
+                print(f"[ERROR] Auto-ingestion failed: {ingest_err}")
+                
         if os.path.exists(DB_DIR):
             embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
             local_vectorstore = Chroma(
