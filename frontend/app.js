@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <i class="fa-solid fa-robot"></i>
                 </div>
                 <div class="message-content">
-                    <p>Hello! I am your AI assistant specialized in the Mumbai Metropolitan Region's real estate markets. I can provide details on connectivity, upcoming infrastructure projects (Metro, MTHL, Coastal Road), key residential builds, and pricing ranges across all major zones.</p>
+                    <p>Hello! I am Hunter, your AI assistant specialized in the Mumbai Metropolitan Region's real estate markets. I can provide details on connectivity, upcoming infrastructure projects (Metro, MTHL, Coastal Road), key residential builds, and pricing ranges across all major zones.</p>
                     <p>What can I help you research today?</p>
                     <div class="suggestions">
                         <button class="suggest-btn" data-query="What is the average 2BHK price in Kanjurmarg?">2BHK in Kanjurmarg</button>

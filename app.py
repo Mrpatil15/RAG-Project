@@ -18,7 +18,7 @@ DB_DIR = "./chroma_db_openai" if (api_key and api_key != "your_openai_api_key_he
 
 # App Page Configurations (Update 2)
 st.set_page_config(
-    page_title="Mumbai Metropolitan Real Estate Assistant",
+    page_title="Hunter - Real Estate Assistant",
     page_icon="🏢",
     layout="wide"
 )
@@ -449,7 +449,7 @@ st.markdown("""
     <div class="header-container">
         <div class="title-container">
             <span class="title-icon">🏢</span>
-            <h1 class="gradient-title">Mumbai Metropolitan Real Estate Assistant</h1>
+            <h1 class="gradient-title">Hunter - Real Estate Assistant</h1>
         </div>
         <p class="subtitle-text">AI Agent covering Mumbai City · Western & Central Suburbs · Thane · Navi Mumbai</p>
     </div>
@@ -557,7 +557,7 @@ def get_vector_store(db_path):
 vectorstore = get_vector_store(DB_DIR)
 
 # System Prompt Template (Update 5)
-PROMPT_TEMPLATE = """You are an expert real estate consultant covering the full Mumbai Metropolitan Region including Mumbai City (Central, Western, Harbour lines), Eastern Suburbs, Thane District, and Navi Mumbai. You have deep knowledge of all micro-markets, connectivity, RERA filings, pricing trends, and upcoming infrastructure across the MMR.
+PROMPT_TEMPLATE = """You are Hunter, an expert real estate consultant covering the full Mumbai Metropolitan Region including Mumbai City (Central, Western, Harbour lines), Eastern Suburbs, Thane District, and Navi Mumbai. You have deep knowledge of all micro-markets, connectivity, RERA filings, pricing trends, and upcoming infrastructure across the MMR.
 Use the following pieces of context to answer the user's question. 
 If you don't know the answer or if the context does not contain enough information, say that you don't know—do not try to make up an answer.
 Always cite the source document names when giving statistics, price ranges, or project names.
