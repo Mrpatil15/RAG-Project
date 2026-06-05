@@ -12,6 +12,8 @@ pinned: false
 
 An enterprise-grade Retrieval-Augmented Generation (RAG) conversational agent specialized in the **Mumbai Metropolitan Region (MMR)** real estate markets. Built using **LangChain**, **FastAPI**, **Streamlit**, and **ChromaDB**, it implements double-level metadata filtering (Zone & Locality) for highly specific, hallucination-free localized analytics.
 
+🚀 **Live Deployment**: **[RealEstateAgent on Hugging Face Spaces](https://hunter1508-realestateagent.hf.space)**
+
 ---
 
 <p align="center">
@@ -20,6 +22,9 @@ An enterprise-grade Retrieval-Augmented Generation (RAG) conversational agent sp
   <img src="https://img.shields.io/badge/LangChain-0.2+-13aa52?style=for-the-badge" alt="LangChain" />
   <img src="https://img.shields.io/badge/Streamlit-1.22+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit" />
   <img src="https://img.shields.io/badge/VectorDB-ChromaDB-blue?style=for-the-badge" alt="ChromaDB" />
+  <a href="https://hunter1508-realestateagent.hf.space" target="_blank">
+    <img src="https://img.shields.io/badge/%F0%9F%A5%97%20Hugging%20Face-Space-orange?style=for-the-badge" alt="Hugging Face Space" />
+  </a>
 </p>
 
 ---
