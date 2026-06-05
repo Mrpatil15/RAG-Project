@@ -27,18 +27,22 @@
                 <div class="section-title">Database Filters</div>
                 
                 <div class="form-group">
-                    <label for="locality-select"><i class="fa-solid fa-map-location-dot"></i> Select Focus Area</label>
-                    <select id="locality-select" class="custom-select">
-                        <option value="all">All Regions (Full MMR)</option>
-                        <option value="south_mumbai">South & Harbour Mumbai</option>
-                        <option value="western_suburbs">Western Suburbs & Sub-markets</option>
-                        <option value="central_mumbai">Central Mumbai (Powai/Chembur)</option>
-                        <option value="kanjurmarg">Kanjurmarg Micro-market</option>
-                        <option value="bhandup">Bhandup Micro-market</option>
-                        <option value="mulund">Mulund Micro-market</option>
-                        <option value="vikhroli">Vikhroli Micro-market</option>
-                        <option value="navi_mumbai">Navi Mumbai District</option>
-                        <option value="thane">Thane & Ghodbunder Road</option>
+                    <label for="zone-select"><i class="fa-solid fa-map"></i> Select Zone</label>
+                    <select id="zone-select" class="custom-select">
+                        <option value="all">All Zones (Full MMR)</option>
+                        <option value="Central Eastern Suburbs">Central Eastern Suburbs</option>
+                        <option value="Central Mumbai">Central Mumbai</option>
+                        <option value="Western Mumbai">Western Mumbai</option>
+                        <option value="South & Harbour Mumbai">South & Harbour Mumbai</option>
+                        <option value="Thane District">Thane District</option>
+                        <option value="Navi Mumbai">Navi Mumbai</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="locality-select"><i class="fa-solid fa-map-location-dot"></i> Select Locality</label>
+                    <select id="locality-select" class="custom-select" disabled>
+                        <option value="all">All Localities</option>
                     </select>
                 </div>
 
@@ -55,6 +59,9 @@
                     <span class="pulse-dot"></span>
                     <span id="backend-status">Checking Connection...</span>
                 </div>
+                <button id="clear-history-btn" class="clear-btn">
+                    <i class="fa-solid fa-trash-can"></i> Clear Chat History
+                </button>
             </div>
         </aside>
 
@@ -107,8 +114,22 @@
                 </form>
             </footer>
         </main>
+
+        <!-- Interactive 3D visualizer panel -->
+        <aside class="visualizer-panel">
+            <div class="visualizer-header">
+                <h3><i class="fa-solid fa-cube"></i> Interactive 3D Market Grid</h3>
+            </div>
+            <div id="three-canvas-container">
+                <!-- WebGL Canvas will be appended here by Three.js -->
+                <div id="market-overlay" class="market-info-overlay" style="display: none;"></div>
+            </div>
+        </aside>
     </div>
 
+    <!-- Three.js and GSAP Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
