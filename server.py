@@ -49,11 +49,11 @@ def preload_resources():
                     embedding_function=embeddings,
                     persist_directory=DB_DIR
                 )
-                print("✅ Preloaded OpenAI Vector Store successfully.")
+                print("[INFO] Preloaded OpenAI Vector Store successfully.")
             else:
-                print("⚠️ OpenAI Vector database folder not found.")
+                print("[WARNING] OpenAI Vector database folder not found.")
         except Exception as e:
-            print(f"⚠️ Could not preload OpenAI Vector Store: {e}")
+            print(f"[ERROR] Could not preload OpenAI Vector Store: {e}")
             
     # 2. Preload Local Vector Store (Offline Mode)
     try:
@@ -67,11 +67,11 @@ def preload_resources():
                 embedding_function=embeddings,
                 persist_directory=DB_DIR
             )
-            print("✅ Preloaded Local Vector Store successfully.")
+            print("[INFO] Preloaded Local Vector Store successfully.")
         else:
-            print("⚠️ Local Vector database folder not found.")
+            print("[WARNING] Local Vector database folder not found.")
     except Exception as e:
-        print(f"⚠️ Could not preload Local Vector Store: {e}")
+        print(f"[ERROR] Could not preload Local Vector Store: {e}")
 
 # Preload resources
 preload_resources()
