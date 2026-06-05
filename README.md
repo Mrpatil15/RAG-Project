@@ -1,42 +1,62 @@
-# Mumbai Metropolitan Real Estate Assistant
+# 🏢 Mumbai Metropolitan Real Estate RAG Assistant
 
-An advanced Retrieval-Augmented Generation (RAG) chatbot built with LangChain, Streamlit, and ChromaDB, covering the full **Mumbai Metropolitan Region (MMR)**.
-
----
-
-## 🗺️ Region & Zone Coverage
-
-The chatbot has been updated to cover **6 major zones** across the MMR:
-
-### **Zone 1: Central Eastern Suburbs**
-* Localities: Kanjurmarg, Bhandup, Mulund, Vikhroli, Nahur
-
-### **Zone 2: Central Mumbai (Central Railway Line)**
-* Localities: Dadar, Kurla, Ghatkopar, Chembur, Govandi, Mankhurd, Tilak Nagar
-
-### **Zone 3: Western Mumbai (Western Railway Line)**
-* Localities: Andheri, Borivali, Kandivali, Malad, Goregaon, Dahisar, Mira Road, Bhayandar
-
-### **Zone 4: South & Harbour Mumbai**
-* Localities: Bandra, Worli, Lower Parel, Parel, Wadala, Sion, Matunga, Mahim
-
-### **Zone 5: Thane District**
-* Localities: Thane West, Thane East, Kalyan, Dombivli, Ulhasnagar, Bhiwandi, Ambernath, Badlapur
-
-### **Zone 6: Navi Mumbai**
-* Localities: Vashi, Kharghar, Panvel, Airoli, Nerul, Belapur, Sanpada, Ghansoli, Kopar Khairane
+An enterprise-grade Retrieval-Augmented Generation (RAG) conversational agent specialized in the **Mumbai Metropolitan Region (MMR)** real estate markets. Built using **LangChain**, **FastAPI**, **Streamlit**, and **ChromaDB**, it implements double-level metadata filtering (Zone & Locality) for highly specific, hallucination-free localized analytics.
 
 ---
 
-## 🛠️ Key Features
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/LangChain-0.2+-13aa52?style=for-the-badge" alt="LangChain" />
+  <img src="https://img.shields.io/badge/Streamlit-1.22+-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit" />
+  <img src="https://img.shields.io/badge/VectorDB-ChromaDB-blue?style=for-the-badge" alt="ChromaDB" />
+</p>
 
-1. **Dual-Mode Embedding & LLM Logic:**
-   * **Cloud Mode:** Runs using OpenAI `text-embedding-3-small` and `gpt-4o-mini` if `OPENAI_API_KEY` is present in your `.env`.
-   * **Local/Offline Mode:** Automatically falls back to HuggingFace `sentence-transformers/all-MiniLM-L6-v2` and local **Ollama** running `Llama-3` (no API key required).
-2. **Two-Level Filter:**
-   * Filter queries by selecting a **Zone** and a specific **Locality** dynamically in the sidebar.
-3. **Explicit Operator Filtering:**
-   * Metadata filtering uses explicit ChromaDB operators (`$eq` for single locality queries and `$in` for full-zone queries).
+---
+
+## 🏗️ System Architecture
+
+The chatbot utilizes semantic search coupled with strict metadata filtering on the vector index level to query local real estate knowledge documents.
+
+```mermaid
+graph TD
+    User[User Client] -->|1. Query + Filters| UI[App Interface: Web / Streamlit]
+    UI -->|2. Retrieve Chunks with Explicit Metadata Filter| DB[(ChromaDB Vector Store)]
+    DB -->|3. Matched Document Chunks| Chain[RetrievalQA Chain]
+    Chain -->|4. Prompt + Context Injection| LLM[LLM Engine: OpenAI GPT-4o-mini / Ollama Llama3]
+    LLM -->|5. Structured Answer| Chain
+    Chain -->|6. Format Answer & Cited Sources| UI
+    UI -->|7. Render Chat Bubbles & Source Tags| User
+
+    style DB fill:#1e293b,stroke:#3b82f6,stroke-width:2px;
+    style LLM fill:#1e293b,stroke:#10b981,stroke-width:2px;
+    style UI fill:#0f172a,stroke:#8b5cf6,stroke-width:2px;
+```
+
+---
+
+## 🗺️ Region & Zone Index Coverage
+
+The knowledge base compiles comprehensive regional market briefs, covering connectivity infrastructure (Metro lines, Coastal Road, MTHL), key developer projects, pricing brackets, and upcoming growth catalysts.
+
+| Zone | Primary Localities Covered | RAG Metadata Filter |
+| :--- | :--- | :--- |
+| **Central Eastern Suburbs** | Kanjurmarg, Bhandup, Mulund, Vikhroli, Nahur | `locality: [locality_name]` |
+| **Central Mumbai** | Dadar, Kurla, Ghatkopar, Chembur, Govandi, Mankhurd, Tilak Nagar | `locality: [locality_name]` |
+| **Western Mumbai** | Andheri, Borivali, Kandivali, Malad, Goregaon, Dahisar, Mira Road, Bhayandar | `locality: [locality_name]` |
+| **South & Harbour Mumbai** | Bandra, Worli, Lower Parel, Parel, Wadala, Sion, Matunga, Mahim | `locality: [locality_name]` |
+| **Thane District** | Thane West, Thane East, Kalyan, Dombivli, Ulhasnagar, Bhiwandi, Ambernath, Badlapur | `locality: [locality_name]` |
+| **Navi Mumbai** | Vashi, Kharghar, Panvel, Airoli, Nerul, Belapur, Sanpada, Ghansoli, Kopar Khairane | `locality: [locality_name]` |
+
+---
+
+## 🛠️ Core Capabilities
+
+- **Dual-Mode Inference**:
+  - *Cloud Inference*: Uses OpenAI `text-embedding-3-small` and `gpt-4o-mini` if `OPENAI_API_KEY` is present.
+  - *Local/Offline Inference*: Fallback to HuggingFace `sentence-transformers/all-MiniLM-L6-v2` and local **Ollama** running `llama3`.
+- **Explicit Operator Metadata Querying**: Implements strict vector indexing filters (`$eq` for specific localities and `$in` for full-zone queries) to guarantee zero-context hallucinations.
+- **Browser-Side Chat Session History**: Local storage integration ensures the chat session persists between refreshes.
 
 ---
 
@@ -45,14 +65,18 @@ The chatbot has been updated to cover **6 major zones** across the MMR:
 ```
 .
 ├── data/
-│   └── locality_briefs/      # Markdown files containing regional data
+│   └── locality_briefs/      # Regional real estate markdown files
 ├── chroma_db_openai/         # Chroma DB storage for OpenAI embeddings (1536 dim)
 ├── chroma_db_local/          # Chroma DB storage for HuggingFace embeddings (384 dim)
-├── app.py                    # Streamlit web application
-├── server.py                 # Alternative FastAPI web server
+├── frontend/                 # Static frontend files for FastAPI server
+│   ├── index.html            # Web interface layout
+│   ├── style.css             # Glassmorphic visual theme
+│   └── app.js                # Local storage history and API connectors
+├── app.py                    # Streamlit Dashboard application
+├── server.py                 # FastAPI Web Server backend
 ├── ingest.py                 # Indexing and database creation script
 ├── requirements.txt          # Python dependencies
-└── .env                      # Local credentials (git-ignored)
+└── .env                      # Credentials file (git-ignored)
 ```
 
 ---
@@ -60,50 +84,42 @@ The chatbot has been updated to cover **6 major zones** across the MMR:
 ## 🚀 Setup & Execution
 
 ### 1. Installation
-Install all requirements:
+Install project dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Set Up Environment Variables (Optional)
-Create a `.env` file and configure your API key to run in OpenAI Cloud mode:
+### 2. Configure Credentials (Optional)
+Create a `.env` file at the root directory and add your key for Cloud Mode:
 ```env
-OPENAI_API_KEY=your_openai_key
+OPENAI_API_KEY=your_openai_api_key_here
 ```
-*If you do not set an OpenAI API key, the system automatically falls back to local HuggingFace embeddings and Ollama (Llama-3).*
+*If left empty, the application runs fully locally using Ollama Llama-3.*
 
-### 3. Ingest Documents
-Run the indexing script to parse all local markdown briefs and create the vector stores:
+### 3. Database Ingestion
+Index the locality briefs into the vector database:
 ```bash
 python ingest.py
 ```
 
 ---
 
-## 🖥️ Choosing Your Application Interface
+## 🖥️ Choose Your UI Client
 
-The project includes two highly polished application interfaces. You can run either (or both concurrently):
+You can run either client interface depending on your requirements:
 
-### **Interface A: FastAPI Single-Page Web Application**
-A fast, single-page application built on raw HTML/CSS/JS, featuring persistent local storage chat history and cached global startup retrieval.
-* **Launch Command**:
+### **Interface A: FastAPI Web Application (Recommended)**
+A fast HTML5/CSS3/JS single-page application, featuring persistent chat history and optimized pre-cached retrieval speeds.
+- **Run Server**:
   ```bash
   python server.py
   ```
-* **Local Web Link**: [http://localhost:8000](http://localhost:8000)
-* **Key Features**:
-  * Persistent chat history (survives browser refreshes).
-  * 10x faster response latency due to preloaded startup vectors.
-  * Dynamic two-level filters and clean responsive layouts.
+- **Access Link**: [http://localhost:8000](http://localhost:8000)
 
-### **Interface B: Streamlit Chatbot Dashboard**
-A Python-driven dashboard styled with custom CSS overrides, glassmorphism, and a status badge card.
-* **Launch Command**:
+### **Interface B: Streamlit Dashboard**
+A Python-driven dashboard styled with custom CSS overrides, glassmorphism, and active engine indicators.
+- **Run Server**:
   ```bash
   streamlit run app.py
   ```
-* **Local Web Link**: [http://localhost:8501](http://localhost:8501)
-* **Key Features**:
-  * Custom styled conversation bubbles (user aligns right, assistant aligns left).
-  * Custom sidebar logo and active AI engine badge.
-
+- **Access Link**: [http://localhost:8501](http://localhost:8501)
