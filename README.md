@@ -1,3 +1,13 @@
+---
+title: Mumbai Real Estate RAG Assistant
+emoji: 🏢
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # 🏢 Mumbai Metropolitan Real Estate RAG Assistant
 
 An enterprise-grade Retrieval-Augmented Generation (RAG) conversational agent specialized in the **Mumbai Metropolitan Region (MMR)** real estate markets. Built using **LangChain**, **FastAPI**, **Streamlit**, and **ChromaDB**, it implements double-level metadata filtering (Zone & Locality) for highly specific, hallucination-free localized analytics.
