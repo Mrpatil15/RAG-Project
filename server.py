@@ -106,7 +106,18 @@ preload_resources()
 # Local keyword offline search helper (fallback when both OpenAI and Ollama fail)
 def offline_search(query: str, locality_filter: str):
     files = glob.glob("./data/locality_briefs/*.md")
-    query_words = [w.lower() for w in query.split() if len(w) > 2]
+    
+    # Filter out common question/stop words that dominate longer files
+    STOP_WORDS = {
+        "what", "the", "and", "for", "are", "you", "with", "this", "that", "about", 
+        "your", "from", "how", "why", "who", "which", "where", "when", "average", 
+        "price", "tell", "show", "give", "list", "does", "have", "info", "brief"
+    }
+    query_words = [w.lower() for w in query.split() if len(w) > 2 and w.lower() not in STOP_WORDS]
+    
+    # If all query words are stop words, revert to basic length filter
+    if not query_words:
+        query_words = [w.lower() for w in query.split() if len(w) > 2]
     
     results = []
     for f_path in files:
@@ -122,9 +133,11 @@ def offline_search(query: str, locality_filter: str):
             
         score = 0
         for word in query_words:
+            # Massive boost for files matching specific keywords in the filename (like Kanjurmarg, Worli, etc.)
+            if word == locality_stem or word in file_name.lower():
+                score += 150
             score += content.lower().count(word) * 2
-            if word in file_name.lower():
-                score += 10
+                
                 
         if score > 0:
             paragraphs = content.split("\n\n")
