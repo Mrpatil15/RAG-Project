@@ -113,11 +113,12 @@ def offline_search(query: str, locality_filter: str):
         "your", "from", "how", "why", "who", "which", "where", "when", "average", 
         "price", "tell", "show", "give", "list", "does", "have", "info", "brief"
     }
-    query_words = [w.lower() for w in query.split() if len(w) > 2 and w.lower() not in STOP_WORDS]
+    raw_words = [w.lower().strip("?.!,;:\"'()[]{}") for w in query.split()]
+    query_words = [w for w in raw_words if len(w) > 2 and w not in STOP_WORDS]
     
     # If all query words are stop words, revert to basic length filter
     if not query_words:
-        query_words = [w.lower() for w in query.split() if len(w) > 2]
+        query_words = [w for w in raw_words if len(w) > 2]
     
     results = []
     for f_path in files:
