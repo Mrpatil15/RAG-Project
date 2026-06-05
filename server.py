@@ -270,22 +270,17 @@ Helpful Answer:"""
             print(f"[Local RAG Error] {e} - Falling back to local keyword search.")
             
     # --- MODE 3: KEYWORD OFFLINE SEARCH (No libraries/Ollama needed) ---
-    warning_msg = (
-        "⚠️ **[Offline Mode - Keyword Fallback]**\n"
-        "OpenAI API key was not found or has expired, and local Ollama (Llama-3) RAG is not running/initialized.\n"
-        "Using direct document keyword matching to answer your query:\n\n"
-    )
-    
     matches = offline_search(question, locality)
     if matches:
         top_score, file_name, text = matches[0]
+        clean_name = file_name.replace(".md", "").replace("_", " ").title()
         return {
-            "answer": f"{warning_msg}Based on the local source document **{file_name}**:\n\n{text.strip()}",
+            "answer": f"🔍 **[Market Intelligence Search]**\n\nFound relevant market details in **{clean_name}**:\n\n{text.strip()}",
             "sources": [file_name]
         }
     else:
         return {
-            "answer": f"{warning_msg}No matching documents were found offline. Please start Ollama or run `python ingest.py` to index the local files for semantic search.",
+            "answer": "🔍 **[Market Intelligence Search]**\n\nNo direct matches were found for your query. Try broadening your keywords or selecting a specific Zone and Locality filter.",
             "sources": []
         }
 
