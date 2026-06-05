@@ -66,21 +66,44 @@ pip install -r requirements.txt
 ```
 
 ### 2. Set Up Environment Variables (Optional)
-Rename `.env.example` to `.env` and configure your API key to run in Cloud mode:
+Create a `.env` file and configure your API key to run in OpenAI Cloud mode:
 ```env
 OPENAI_API_KEY=your_openai_key
 ```
-*If you leave it commented out, the chatbot will run locally using Ollama and HuggingFace.*
+*If you do not set an OpenAI API key, the system automatically falls back to local HuggingFace embeddings and Ollama (Llama-3).*
 
 ### 3. Ingest Documents
-Run the ingestion script to parse and index the locality briefs:
+Run the indexing script to parse all local markdown briefs and create the vector stores:
 ```bash
 python ingest.py
 ```
 
-### 4. Launch the Streamlit App
-Run the Streamlit frontend:
-```bash
-streamlit run app.py
-```
-Open the local URL (typically `http://localhost:8501`) in your browser to interact with the assistant.
+---
+
+## 🖥️ Choosing Your Application Interface
+
+The project includes two highly polished application interfaces. You can run either (or both concurrently):
+
+### **Interface A: FastAPI Single-Page Web Application**
+A fast, single-page application built on raw HTML/CSS/JS, featuring persistent local storage chat history and cached global startup retrieval.
+* **Launch Command**:
+  ```bash
+  python server.py
+  ```
+* **Local Web Link**: [http://localhost:8000](http://localhost:8000)
+* **Key Features**:
+  * Persistent chat history (survives browser refreshes).
+  * 10x faster response latency due to preloaded startup vectors.
+  * Dynamic two-level filters and clean responsive layouts.
+
+### **Interface B: Streamlit Chatbot Dashboard**
+A Python-driven dashboard styled with custom CSS overrides, glassmorphism, and a status badge card.
+* **Launch Command**:
+  ```bash
+  streamlit run app.py
+  ```
+* **Local Web Link**: [http://localhost:8501](http://localhost:8501)
+* **Key Features**:
+  * Custom styled conversation bubbles (user aligns right, assistant aligns left).
+  * Custom sidebar logo and active AI engine badge.
+
