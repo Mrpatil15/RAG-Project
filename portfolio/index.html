@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yash Patil | Data Scientist & AI Solutions Engineer Portfolio</title>
+    <meta name="description" content="Portfolio of Yash Patil, Data Scientist and AI Solutions Engineer. Specialized in RAG, Machine Learning, Data Analytics, and Full-Stack PropTech solutions.">
+    <meta name="keywords" content="Yash Patil, Data Science, Machine Learning, RAG, GenAI, LangChain, Streamlit, Portfolio">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    
+    <!-- Background glow particles -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- Navigation Header -->
+    <header id="main-header" class="glass-header">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon"><i class="fa-solid fa-brain"></i></span>
+                <span class="logo-text">Yash<span>Patil</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="#hero" class="active" id="nav-link-home">Home</a>
+                <a href="#about" id="nav-link-about">About</a>
+                <a href="#skills" id="nav-link-skills">Skills</a>
+                <a href="#experience" id="nav-link-experience">Experience</a>
+                <a href="#projects" id="nav-link-projects">Projects</a>
+                <a href="#contact" id="nav-link-contact">Contact</a>
+            </nav>
+            <div class="menu-toggle" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="badge-container">
+                    <span class="hero-badge"><i class="fa-solid fa-sparkles"></i> Open for Opportunities</span>
+                </div>
+                <h1 class="hero-title">
+                    Building Intelligent <br>
+                    <span class="gradient-text">AI & Data Solutions</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Data Scientist & AI Solutions Engineer specializing in building robust Retrieval-Augmented Generation (RAG) models, machine learning pipelines, and interactive analytics.
+                </p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary" id="btn-view-work">View Projects <i class="fa-solid fa-arrow-down"></i></a>
+                    <a href="#contact" class="btn btn-secondary" id="btn-get-touch">Let's Connect</a>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/yash-patil-619a91262" target="_blank" aria-label="LinkedIn" id="hero-social-linkedin"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://github.com/Mrpatil15" target="_blank" aria-label="GitHub" id="hero-social-github"><i class="fa-brands fa-github"></i></a>
+                    <a href="mailto:yashpatil1524@gmail.com" aria-label="Email" id="hero-social-email"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="hero-terminal-container">
+                <div class="hero-terminal glass-card">
+                    <div class="terminal-header">
+                        <div class="terminal-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="terminal-title">mumbai_agent.py</div>
+                        <div class="terminal-lang">python</div>
+                    </div>
+                    <div class="terminal-body">
+                        <pre><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor
+<span class="keyword">from</span> langchain_community.vectorstores <span class="keyword">import</span> Chroma
+
+<span class="comment"># 1. Load Mumbai Real Estate Data</span>
+df = pd.read_csv(<span class="string">"mumbai_market.csv"</span>)
+X = df[[<span class="string">'sqft'</span>, <span class="string">'bhk'</span>, <span class="string">'location_score'</span>]]
+y = df[<span class="string">'price_cr'</span>]
+
+<span class="comment"># 2. Fit valuation model (R²: 0.955)</span>
+regressor = RandomForestRegressor()
+regressor.fit(X, y)
+
+<span class="comment"># 3. Setup Gemini RAG Agent</span>
+rag_agent = setup_agent(
+    vectordb=<span class="string">"chroma_db"</span>,
+    llm=<span class="string">"gemini-1.5-flash"</span>
+)
+print(<span class="string">"AI Engine Status: [ONLINE]"</span>)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section scroll-reveal">
+        <div class="section-container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-avatar glass-card">
+                    <div class="avatar-glow"></div>
+                    <img src="images/hero.png" alt="Yash Patil AI Avatar">
+                </div>
+                <div class="about-info glass-card">
+                    <h3>Data & Growth Specialist</h3>
+                    <p>
+                        I am a Data & Growth Analyst with a Bachelor of Data Science degree. I combine a builder mindset with analytical skills to design models, dashboards, and automated workflows that drive clear business growth.
+                    </p>
+                    <p>
+                        I love bridging the gap between deep technical code (like language models, vector indexes, and regression pipelines) and real-world commercial results (like user acquisition, PropTech solutions, and marketing analytics).
+                    </p>
+                    <div class="info-meta">
+                        <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Mumbai, India</div>
+                        <div class="meta-item"><i class="fa-solid fa-envelope"></i> yashpatil1524@gmail.com</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-stats-container">
+                <div class="stat-card glass-card">
+                    <span class="stat-num">5+</span>
+                    <span class="stat-label">Projects Completed</span>
+                </div>
+                <div class="stat-card glass-card">
+                    <span class="stat-num">95.5%</span>
+                    <span class="stat-label">Model Accuracy R²</span>
+                </div>
+                <div class="stat-card glass-card">
+                    <span class="stat-num">3+</span>
+                    <span class="stat-label">Industry Internships</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section scroll-reveal">
+        <div class="section-container">
+            <h2 class="section-title text-center">Technical Arsenal</h2>
+            <div class="skills-grid">
+                <!-- Skill Category 1 -->
+                <div class="skill-category glass-card">
+                    <div class="category-header">
+                        <i class="fa-solid fa-robot"></i>
+                        <h3>Generative AI & RAG</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li><span>Retrieval-Augmented Generation (RAG)</span></li>
+                        <li><span>LangChain & LangChain Community</span></li>
+                        <li><span>ChromaDB Vector Indexing</span></li>
+                        <li><span>Gemini & ChatGPT APIs</span></li>
+                        <li><span>Prompt Engineering</span></li>
+                    </ul>
+                </div>
+                <!-- Skill Category 2 -->
+                <div class="skill-category glass-card">
+                    <div class="category-header">
+                        <i class="fa-solid fa-square-root-variable"></i>
+                        <h3>Data Science & ML</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li><span>Python (Pandas, NumPy, Scikit-learn)</span></li>
+                        <li><span>Supervised & Unsupervised Learning</span></li>
+                        <li><span>NLP & Sentiment Analysis</span></li>
+                        <li><span>Time Series Forecasting</span></li>
+                        <li><span>Feature Importance Tuning</span></li>
+                    </ul>
+                </div>
+                <!-- Skill Category 3 -->
+                <div class="skill-category glass-card">
+                    <div class="category-header">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <h3>Visualization & Analytics</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li><span>Streamlit Dashboards</span></li>
+                        <li><span>Power BI & Tableau</span></li>
+                        <li><span>Plotly & Seaborn Charts</span></li>
+                        <li><span>Meta Ads & Google Ads</span></li>
+                        <li><span>KPI Monitoring & A/B Testing</span></li>
+                    </ul>
+                </div>
+                <!-- Skill Category 4 -->
+                <div class="skill-category glass-card">
+                    <div class="category-header">
+                        <i class="fa-solid fa-database"></i>
+                        <h3>Data Engineering</h3>
+                    </div>
+                    <ul class="skill-list">
+                        <li><span>MySQL & SQL Server</span></li>
+                        <li><span>Data Warehousing</span></li>
+                        <li><span>Apache Spark & Hadoop</span></li>
+                        <li><span>Workflow Automation (Zapier)</span></li>
+                        <li><span>Learning: Airflow, dbt, Snowflake</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience-section scroll-reveal">
+        <div class="section-container">
+            <h2 class="section-title">Industry Experience</h2>
+            <div class="timeline">
+                
+                <!-- Exp 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date">2025 – Present</span>
+                        <h3>Data and Growth Analyst</h3>
+                        <span class="company-name">Heawen Property, Mumbai</span>
+                        <p>Collected and integrated multi-source data (CRM, marketing, sales) using SQL to analyze real estate metrics. Set up, tracked, and optimized lead generation campaigns via Meta & Google Ads, and automated workflows using Zapier.</p>
+                    </div>
+                </div>
+
+                <!-- Exp 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date">Apr 2025 – Jun 2025</span>
+                        <h3>Finance Analyst Intern</h3>
+                        <span class="company-name">Axis Max Life Insurance, Ghatkopar</span>
+                        <p>Analyzed financial statements and generated forecasts to aid strategic decision making. Monitored budgets and cost-saving indicators to improve reporting accuracy.</p>
+                    </div>
+                </div>
+
+                <!-- Exp 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date">May 2025 – Jun 2025</span>
+                        <h3>Data Science Intern</h3>
+                        <span class="company-name">Prodigy Info Tech, Mumbai</span>
+                        <p>Conducted exploratory data analysis, data pre-processing, and built supervised machine learning classifiers on real-world datasets. Shared dashboard insights with stakeholders.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section scroll-reveal">
+        <div class="section-container">
+            <h2 class="section-title text-center">Featured Projects</h2>
+            
+            <!-- Project Filters -->
+            <div class="project-filters" id="project-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="rag">AI & RAG</button>
+                <button class="filter-btn" data-filter="ml">Data Science & ML</button>
+                <button class="filter-btn" data-filter="web">Web Dev</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="projects-grid" id="projects-grid">
+                
+                <!-- Project 1 -->
+                <div class="project-card glass-card" data-category="rag">
+                    <div class="project-img">
+                        <img src="images/rag.png" alt="PropBot RAG Chatbot">
+                        <div class="project-img-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-tag">AI & RAG</span>
+                        <h3>PropBot RAG Chatbot</h3>
+                        <p>An enterprise-grade chatbot providing localized, hallucination-free Mumbai Metropolitan Real Estate market intelligence using vector databases.</p>
+                        <div class="tech-tags">
+                            <span>LangChain</span>
+                            <span>ChromaDB</span>
+                            <span>Streamlit</span>
+                            <span>Gemini</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Mrpatil15/RAG-Project" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+                            <a href="https://hunter1508-realestateagent.hf.space" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card glass-card" data-category="ml">
+                    <div class="project-img">
+                        <img src="images/ml.png" alt="Real Estate Valuation Model">
+                        <div class="project-img-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-tag">Data Science & ML</span>
+                        <h3>Real Estate Valuation Model</h3>
+                        <p>A machine learning modeling pipeline explaining 95.5% of Mumbai property price variance using a Random Forest regressor with Streamlit dashboard controls.</p>
+                        <div class="tech-tags">
+                            <span>Python</span>
+                            <span>Scikit-learn</span>
+                            <span>Pandas</span>
+                            <span>Streamlit</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Mrpatil15/mumbai-real-estate-data-science" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card glass-card" data-category="web">
+                    <div class="project-img">
+                        <img src="images/web.png" alt="Runwal Meadows Website">
+                        <div class="project-img-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-tag">Web Dev</span>
+                        <h3>Runwal Meadows Website</h3>
+                        <p>A clean, optimized lead generation landing page built for Heawen Property. Features instant JSON logging and nodemailer SMTP alerts.</p>
+                        <div class="tech-tags">
+                            <span>Node.js</span>
+                            <span>Express</span>
+                            <span>Nodemailer</span>
+                            <span>HTML/CSS</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Mrpatil15/Runwalmeadows" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card glass-card" data-category="ml">
+                    <div class="project-img">
+                        <img src="images/nlp.png" alt="Customer Sentiment Analysis">
+                        <div class="project-img-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-tag">Data Science & ML</span>
+                        <h3>Customer Sentiment Analysis</h3>
+                        <p>A natural language sentiment classifier training on client feedback using TF-IDF and Naive Bayes, reaching 85% accuracy with live Streamlit interfaces.</p>
+                        <div class="tech-tags">
+                            <span>NLP</span>
+                            <span>Scikit-learn</span>
+                            <span>NLTK</span>
+                            <span>Streamlit</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Mrpatil15/Customer-Sentiment-analysis" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card glass-card" data-category="ml">
+                    <div class="project-img">
+                        <img src="images/nlp.png" alt="Dutch Tweet Miner">
+                        <div class="project-img-overlay"></div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-tag">Data Science & ML</span>
+                        <h3>Dutch Tweet Miner</h3>
+                        <p>Language detection and sentiment analyzer mining Twitter text using TextBlob-NL and langdetect, plotting word clouds and rolling averages.</p>
+                        <div class="tech-tags">
+                            <span>TextBlob-NL</span>
+                            <span>Langdetect</span>
+                            <span>Matplotlib</span>
+                            <span>Pandas</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/Mrpatil15/review-sentiment-analysis" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section scroll-reveal">
+        <div class="section-container">
+            <h2 class="section-title text-center">Let's Connect</h2>
+            <div class="contact-grid">
+                <div class="contact-card glass-card">
+                    <h3>Get in Touch</h3>
+                    <p>I am open to discuss internships, growth analyst positions, data science roles, or AI solutions integrations. Reach out anytime!</p>
+                    
+                    <div class="contact-methods">
+                        <div class="method-item">
+                            <div class="method-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="method-details">
+                                <span>Email Me</span>
+                                <a href="mailto:yashpatil1524@gmail.com">yashpatil1524@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="method-item">
+                            <div class="method-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="method-details">
+                                <span>Call Me</span>
+                                <a href="tel:+917058432515">+91 7058432515</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <form class="contact-form glass-card" id="contact-form-el">
+                    <div class="form-group">
+                        <label for="form-name">Name</label>
+                        <input type="text" id="form-name" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="form-email">Email</label>
+                        <input type="email" id="form-email" required placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="form-message">Message</label>
+                        <textarea id="form-message" required rows="5" placeholder="Hey Yash, I'd love to chat about a project..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="btn-submit-contact">Send Message <i class="fa-solid fa-paper-plane"></i></button>
+                    <div id="form-feedback" class="feedback-msg"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 Yash Patil. All rights reserved.</p>
+            <div class="footer-socials">
+                <a href="https://www.linkedin.com/in/yash-patil-619a91262" target="_blank" aria-label="LinkedIn" id="footer-social-linkedin"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://github.com/Mrpatil15" target="_blank" aria-label="GitHub" id="footer-social-github"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script -->
+    <script src="app.js"></script>
+</body>
+</html>
