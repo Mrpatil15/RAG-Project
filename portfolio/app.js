@@ -139,4 +139,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 6. Interactive Cursor Glow Positioning
+    const cursorGlow = document.getElementById('cursor-glow-el');
+    if (cursorGlow) {
+        window.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = `${e.clientX}px`;
+            cursorGlow.style.top = `${e.clientY}px`;
+        });
+        
+        // Handle cursor hover states
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.style.opacity = '0';
+        });
+        document.addEventListener('mouseenter', () => {
+            cursorGlow.style.opacity = '1';
+        });
+    }
+
 });

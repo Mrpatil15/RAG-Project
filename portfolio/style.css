@@ -204,6 +204,61 @@ a {
     border-color: var(--border-glass-hover);
     transform: translateY(-2px);
 }
+.btn-tertiary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+}
+.btn-tertiary:hover {
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+.nav-resume-btn {
+    padding: 0.4rem 1rem !important;
+    font-size: 0.85rem !important;
+    margin-left: 0.8rem;
+}
+
+/* Interactive Cursor Glow */
+.cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, rgba(6, 182, 212, 0.04) 50%, rgba(0, 0, 0, 0) 100%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    mix-blend-mode: screen;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+body:hover .cursor-glow {
+    opacity: 1;
+}
+
+/* Micro-interactions for technical tags and stats */
+.tech-tags span {
+    transition: var(--transition-smooth);
+}
+.tech-tags span:hover {
+    background: rgba(6, 182, 212, 0.15);
+    color: #22d3ee;
+    transform: translateY(-2px);
+    border-color: rgba(6, 182, 212, 0.3);
+}
+.skill-list li span {
+    transition: var(--transition-smooth);
+}
+.skill-list li:hover span {
+    color: var(--text-primary);
+    transform: translateX(3px);
+}
+.skill-list li {
+    transition: var(--transition-smooth);
+}
 
 /* Section Common Container Layout */
 section {
